@@ -1,47 +1,105 @@
 # Catalogo
 
-Projeto React com Vite preparado para crescer por features.
+Aplicacao React (Vite) para vitrine de produtos/servicos com:
+
+- listagem com filtros e busca
+- detalhe do item
+- carrinho com controle de quantidade
+- finalizacao via WhatsApp com resumo do pedido
+
+## Stack
+
+- React 19
+- React Router
+- CSS por feature (sem Tailwind)
+- Vite
 
 ## Scripts
 
-- `npm run dev`: inicia o ambiente de desenvolvimento
-- `npm run api`: sobe a API fake local em `http://localhost:3000`
+- `npm run dev`: inicia o frontend
+- `npm run api`: sobe API fake local em `http://localhost:3000`
 - `npm run dev:full`: sobe API fake + frontend juntos
-- `npm run build`: gera build de producao
-- `npm run lint`: valida padroes de codigo
+- `npm run build`: build de producao
+- `npm run lint`: validacao de lint
+- `npm run preview`: preview local da build
 
-## Camada de servicos
+## Rotas da aplicacao
 
-A feature de catalogo usa uma camada de servicos dedicada:
+- `/`: catalogo principal
+- `/catalogo/:productId`: detalhe de item
+- `/carrinho`: carrinho
+
+## Configuracao da marca
+
+Troque nome e logo do cliente em:
+
+- `src/app/brand.js`
+
+Exemplo:
+
+- `name`: nome exibido no topo das telas
+- `logo`: caminho da imagem em `public/` (exemplo: `/logo-cliente.svg`)
+
+## Produtos e fotos
+
+Dados dos itens:
+
+- `src/features/catalog/data/products.js`
+
+Arquivos de imagem:
+
+- `public/products/`
+
+Cada item usa o campo `image`, por exemplo:
+
+- `/products/pulse-headset.svg`
+
+## Finalizacao por WhatsApp
+
+No carrinho, o botao "Finalizar compra" abre o WhatsApp do vendedor com resumo do pedido.
+
+Variavel recomendada:
+
+- `VITE_WHATSAPP_SELLER=5511999999999`
+
+Defina em arquivo `.env` para desenvolvimento e em Environment Variables no Vercel para producao.
+
+## Camada de servico e fallback
+
+Servico do catalogo:
 
 - `src/features/catalog/services/catalogService.js`
 
-Comportamento atual:
+Comportamento:
 
-- Se `VITE_API_BASE_URL` estiver configurada, os dados sao buscados via `fetch`.
-- Se `VITE_API_BASE_URL` nao existir, o app usa fallback local com mocks.
+- Se `VITE_API_BASE_URL` existir e a API responder, usa dados remotos
+- Se a API falhar ou estiver offline, cai automaticamente para dados locais (`products.js`)
 
-### Endpoints esperados
+## API fake opcional
+
+Base local:
+
+- `db.json`
+
+Endpoints:
 
 - `GET /products`
 - `GET /products/:id`
 
-Parametros de query usados na listagem:
+## Deploy no Vercel
 
-- `q`: texto de busca
-- `category`: categoria exata
-- `stockOnly=true`: filtra itens em estoque
-- `sort`: `relevance`, `price-asc`, `price-desc`, `rating`
-- `page`: pagina atual
+Passo a passo rapido:
 
-Exemplo de variavel de ambiente em `.env`:
+1. Importar o repositorio no Vercel
+2. Framework: Vite
+3. Build Command: `npm run build`
+4. Output Directory: `dist`
+5. Configurar variaveis de ambiente (principalmente `VITE_WHATSAPP_SELLER`)
+6. Deploy
 
-`VITE_API_BASE_URL=http://localhost:3000`
+## Estrutura principal
 
-Para facilitar, existe um exemplo pronto em `.env.example`.
-
-## Rodando com servico fake
-
-1. Crie o arquivo `.env` com base no `.env.example`.
-2. Rode `npm run dev:full`.
-3. A aplicacao vai consumir os endpoints locais de `db.json` via json-server.
+- `src/app/`: configuracoes globais e rotas
+- `src/features/catalog/`: listagem, detalhe, filtros e servico
+- `src/features/cart/`: contexto, pagina e estilos do carrinho
+- `public/products/`: imagens dos itens
