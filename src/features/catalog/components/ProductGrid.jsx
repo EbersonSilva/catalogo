@@ -57,7 +57,7 @@ export function ProductGrid({ items }) {
             <p>{product.description}</p>
             <div className="product-meta">
               <strong>R$ {product.price.toFixed(2)}</strong>
-              <span>Avaliacao {product.rating}</span>
+              {/* <span>Avaliacao {product.rating}</span> */}
             </div>
             {getItemQuantity(product.id) > 0 ? (
               <p className="product-in-cart">No carrinho: {getItemQuantity(product.id)}</p>

@@ -3,7 +3,7 @@ import { BRAND } from '../../../app/brand'
 import { useCart } from '../context/useCart'
 import '../styles/cart.css'
 
-const SELLER_WHATSAPP = import.meta.env.VITE_WHATSAPP_SELLER ?? '5511948551437'
+const SELLER_WHATSAPP = import.meta.env.VITE_WHATSAPP_SELLER ?? '5511999999999'
 
 export function CartPage() {
   const { items, totalAmount, removeItem, updateQuantity, clearCart } = useCart()
